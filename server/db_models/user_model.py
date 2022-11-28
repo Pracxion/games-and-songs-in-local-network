@@ -15,3 +15,6 @@ class User(db.Model):
     forename = db.Column(db.String(20), nullable=False)
     surename = db.Column(db.String(20), nullable=False)
     password = db.Column(db.Text, nullable=False)
+
+    def __repr__(self) -> str:
+        return f'<User @{self.username} | {self.forename.capitalize()} {self.surename.capitalize()} >'
