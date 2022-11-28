@@ -1,0 +1,7 @@
+.vscode
+.cache
+**/__pycache__/
+/server/.env
+/client/node_modules/**
+/experimental/*
+/database/*

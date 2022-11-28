@@ -1,0 +1,8 @@
+flask
+flask-sqlalchemy
+flask-bcrypt
+flask-session
+redis
+configparser
+python-dotenv
+spotipy
