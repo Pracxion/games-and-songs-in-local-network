@@ -1,26 +1,7 @@
-from flask import Flask
-from flask import request, jsonify, session
-from flask_session import Session
-from flask_bcrypt import Bcrypt
-from db_models.user_model import db, User
-from exceptions.registration import *
-from configuration import Configuration
-
-app = Flask(__name__)
-app.config.from_object(Configuration)
-app.secret_key = Configuration.APP_SECRET_KEY
-
-bcrypt = Bcrypt(app)
-db.init_app(app)
-
-with app.app_context():
-    db.create_all()
-
-
-@app.route("/", methods=["GET"])
-def index():
-    return {}
-
+from ....exceptions.username import *
+from ....exceptions.forename import *
+from ....exceptions.surename import *
+from ....exceptions.password import *
 
 def check_registration(request) -> tuple[str, str, str, str]:
 
@@ -76,32 +57,3 @@ def check_registration(request) -> tuple[str, str, str, str]:
 
     return (str(request["username"]), str(request["forename"]), str(request["surename"]), str(request["password"]))
 
-
-@app.route("/register", methods=["POST"])
-def register_user():
-    try:
-        username, forename, surename, password = check_registration(request)
-    except:
-        # TODO Exception Handling for wrong inputs in registration fields
-        pass
-    else:
-        hashed_password = bcrypt.generate_password_hash(password)
-        new_user = User(username=username, forename=forename.lower(), surename=surename.lower(), password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-
-        return jsonify({"id": new_user.id, "username": new_user.username, "forename": new_user.forename, "surename": new_user.surename})
-
-
-@app.route("/login", methods=["POST"])
-def login_user():
-    pass
-
-
-@app.route("/logout")
-def logout_user():
-    pass
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

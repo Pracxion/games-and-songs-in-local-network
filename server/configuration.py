@@ -6,11 +6,11 @@ import os
 load_dotenv()
 
 
-class Configuration:
+class DevelopmentConfiguration:
 
-    APP_SECRET_KEY = os.environ.get("SECRET_KEY")
+    SECRET_KEY = os.environ.get("SECRET_KEY")
 
-    # [SPOTIFY]
+    # SPOTIFY
     SPOTIPY_REDIRECT_URI = "http://localhost:9000"
     SPOTIFY_CLIENT_ID = os.environ.get("SPOTIFY_CLIENT_ID")
     SPOTIFY_CLIENT_SECRET = os.environ.get("SPOTIFY_CLIENT_SECRET")
@@ -27,17 +27,17 @@ class Configuration:
         "USER_READ_CURRENTLY_PLAYING": "user-read-currently-playing",
     }
 
-    # [SQLALCHEMY]
+    # SQLALCHEMY
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_DATABASE_URI = r"sqlite:///../database/main.sqlite"
 
-    # [REGISTRATION]
+    # REGISTRATION
     USERNAME_ALLOWED_SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_"
     NAME_ALLOWED_SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz -"
     PASSWORD_ALLOWED_SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 !#$%&()*+,-./:;<=>?@[]^_`{|}~"
 
-    # [SESSION]
+    # SESSION
     SESSION_TYPE = "redis"
     SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
