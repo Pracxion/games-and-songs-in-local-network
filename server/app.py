@@ -19,8 +19,9 @@ def create_app(config=DevelopmentConfiguration):
     bcrypt = Bcrypt(app)
     jwt = JWTManager(app)
 
-    initialize_db(app)
-    initialize_routes(api)
+    with app.app_context():
+        initialize_db(app)
+        initialize_routes(api)
 
     return app
 

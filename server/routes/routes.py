@@ -1,6 +1,6 @@
-from main.main import MainApi
-from main.login import LoginApi
-from main.register import RegisterApi
+from .main.main import MainApi
+from .main.login import LoginApi
+from .main.register import RegisterApi
 
 
 def initialize_routes(api):
