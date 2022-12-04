@@ -1,29 +1,36 @@
-*, *::after, *::before {
-    box-sizing: border-box;
-    border: none;
+@font-face {
+    font-family: "NotoSans";
+    src: url(../src/assets/fonts/NotoSans-Regular.ttf);
 }
 
-label,
-button,
-select,
-summary,
-[type=radio],
-[type=submit],
-[type=checkbox] {
-    cursor: pointer;
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+    border: none;
 }
 
 html {
     -webkit-text-size-adjust: none; /* for iOS Safari */
     text-size-adjust: none; /* for other mobile browsers */
-  }
+}
 
 body {
-    background-color: rgb(249, 200, 121);
+    font-family: "NotoSans", sans-serif;
+    background-color: rgb(0, 0, 0);
+}
+
+button,
+select,
+summary,
+[type="radio"],
+[type="submit"],
+[type="checkbox"] {
+    cursor: pointer;
 }
 
 @media (prefers-reduced-motion: no-preference) {
     html {
-          scroll-behavior: smooth;
+        scroll-behavior: smooth;
     }
-  }
+}

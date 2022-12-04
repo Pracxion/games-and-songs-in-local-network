@@ -2,6 +2,8 @@ from ....exceptions.username import *
 from ....exceptions.forename import *
 from ....exceptions.surename import *
 from ....exceptions.password import *
+from ....db_models.user_model import User
+
 
 def check_registration(request) -> tuple[str, str, str, str]:
 
@@ -56,4 +58,3 @@ def check_registration(request) -> tuple[str, str, str, str]:
         raise PasswordDisallowedSymbolsException
 
     return (str(request["username"]), str(request["forename"]), str(request["surename"]), str(request["password"]))
-

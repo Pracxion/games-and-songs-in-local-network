@@ -5,3 +5,4 @@
 **/node_modules/**
 /experimental/*
 /database/*
+**.ttf

@@ -1,5 +1,3 @@
-from configparser import ConfigParser
-import pathlib
 from dotenv import load_dotenv
 import os
 
@@ -33,9 +31,9 @@ class DevelopmentConfiguration:
     SQLALCHEMY_DATABASE_URI = r"sqlite:///../database/main.sqlite"
 
     # REGISTRATION
-    USERNAME_ALLOWED_SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_"
-    NAME_ALLOWED_SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz -"
-    PASSWORD_ALLOWED_SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 !#$%&()*+,-./:;<=>?@[]^_`{|}~"
+    USERNAME_ALLOWED_SYMBOLS: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_"
+    NAME_ALLOWED_SYMBOLS: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz -"
+    PASSWORD_ALLOWED_SYMBOLS: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 !#$%&()*+,-./:;<=>?@[]^_`{|}~"
 
     # SESSION
     SESSION_TYPE = "redis"

@@ -1,7 +1,8 @@
+from .db import db
+from uuid import uuid4
 from enum import Enum
 from ..enumerations import roles as Role
-from uuid import uuid4
-from .db import db
+from flask_bcrypt import generate_password_hash, check_password_hash
 
 
 def get_uuid():
@@ -17,5 +18,11 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
     role = db.Column(Enum(Role))
 
+    def hash_password(self):
+        self.password = generate_password_hash(self.password).decode("utf8")
+
+    def check_password(self, password: str):
+        return check_password_hash(self.password, password)
+
     def __repr__(self) -> str:
-        return f'<User @{self.username} | {self.forename.capitalize()} {self.surename.capitalize()} is {self.role}>'
+        return f"<User @{self.username} | {self.forename.capitalize()} {self.surename.capitalize()} is {self.role}>"
