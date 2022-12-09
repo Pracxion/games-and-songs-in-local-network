@@ -1,7 +1,6 @@
-from .db import db
+from src.db.db import db
 from uuid import uuid4
-from enum import Enum
-from ..enumerations import roles as Role
+from src.enum.roles import Role
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 
@@ -11,12 +10,12 @@ def get_uuid():
 
 class User(db.Model):
     __tablename__ = "users"
-    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
-    username = db.Column(db.String(20), unqiue=True, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, unique=True, nullable=False, default=get_uuid)
+    username = db.Column(db.String(20), unique=True, nullable=False)
     forename = db.Column(db.String(20), nullable=False)
     surename = db.Column(db.String(20), nullable=False)
     password = db.Column(db.Text, nullable=False)
-    role = db.Column(Enum(Role))
+    role = db.Column(db.Enum(Role), nullable=False, default=Role.User)
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode("utf8")
