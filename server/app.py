@@ -1,4 +1,6 @@
 from flask import Flask
+from flask_cors import CORS
+from flask_session import Session
 from flask_restful import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
@@ -16,6 +18,8 @@ def create_app(config=DevelopmentConfiguration):
 
     # TODO add error handling
     api: Api = Api(app)
+    CORS(app, supports_credentials=True)
+    server_session = Session(app)
     bcrypt: Bcrypt = Bcrypt(app)
     jwt: JWTManager = JWTManager(app)
 

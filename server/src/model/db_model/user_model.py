@@ -1,4 +1,4 @@
-from src.db.db import db
+from src.model.db_model.db import db
 from uuid import uuid4
 from src.enum.roles import Role
 from flask_bcrypt import generate_password_hash, check_password_hash
@@ -12,10 +12,10 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.String(32), primary_key=True, unique=True, nullable=False, default=get_uuid)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    forename = db.Column(db.String(20), nullable=False)
-    surename = db.Column(db.String(20), nullable=False)
+    forname = db.Column(db.String(20), nullable=False)
+    surname = db.Column(db.String(20), nullable=False)
     password = db.Column(db.Text, nullable=False)
-    role = db.Column(db.Enum(Role), nullable=False, default=Role.User)
+    role = db.Column(db.Enum(Role), nullable=False, default=Role.User.value)
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode("utf8")
@@ -24,4 +24,4 @@ class User(db.Model):
         return check_password_hash(self.password, password)
 
     def __repr__(self) -> str:
-        return f"<User @{self.username} | {self.forename.capitalize()} {self.surename.capitalize()} is {self.role}>"
+        return f"<User @{self.username} | {self.forname.capitalize()} {self.surname.capitalize()} is {self.role.value}>"

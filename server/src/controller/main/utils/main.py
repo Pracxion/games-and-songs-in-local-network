@@ -1,3 +1,4 @@
+from flask import request
 from src.exceptions.forname import FornameDisallowedSymbolsException, FornameLengthException, FornameNotInRequestException
 from src.exceptions.surname import SurnameDisallowedSymbolsException, SurnameLengthException, SurnameNotInRequestException
 from src.exceptions.password import PasswordDisallowedSymbolsException, PasswordLengthException, PasswordNotInRequestException
@@ -7,11 +8,16 @@ from src.exceptions.username import (
     UsernameLengthException,
     UsernameNotInRequestException,
 )
-from src.db.user_model import User
+from src.model.db_model.user_model import User
 from src.enum.allowed_symbols import AllowedSymbols
 
 
-def is_username_accepted(username: str) -> None:
+def is_username_accepted(request) -> None:
+
+    if "username" in request:
+        username = str(request["username"])
+    else:
+        raise UsernameNotInRequestException
 
     if not 3 <= len(username) <= 20:
         raise UsernameLengthException
@@ -21,11 +27,18 @@ def is_username_accepted(username: str) -> None:
     if len(username_set - username_allowed_symbols) > 0:
         raise UsernameDisallowedSymbolsException
 
-    username_exists = User.query.filter_by(username=username).first() is not None
-    # TODO raise error
+    check_if_user_exist = User.query.filter_by(username=username).first()
+    print(check_if_user_exist)
+    if check_if_user_exist is not None:
+        raise UsernameExistsAlreadyException
 
 
-def is_forname_accepted(forname: str) -> None:
+def is_forname_accepted(request) -> None:
+
+    if "forname" in request:
+        forname = str(request["forname"])
+    else:
+        raise FornameNotInRequestException
 
     if not 3 <= len(forname) <= 20:
         raise FornameLengthException
@@ -36,7 +49,12 @@ def is_forname_accepted(forname: str) -> None:
         raise FornameDisallowedSymbolsException
 
 
-def is_surname_accepted(surname: str) -> None:
+def is_surname_accepted(request) -> None:
+
+    if "surname" in request:
+        surname = str(request["surname"])
+    else:
+        raise SurnameNotInRequestException
 
     if not 3 <= len(surname) <= 20:
         raise SurnameLengthException
@@ -47,7 +65,12 @@ def is_surname_accepted(surname: str) -> None:
         raise SurnameDisallowedSymbolsException
 
 
-def is_password_accepted(password: str) -> None:
+def is_password_accepted(request) -> None:
+
+    if "password" in request:
+        password = str(request["password"])
+    else:
+        raise PasswordNotInRequestException
 
     if not 6 <= len(password):
         raise PasswordLengthException
@@ -59,30 +82,14 @@ def is_password_accepted(password: str) -> None:
 
 
 def check_registration(request) -> dict[str, str, str, str]:
-    print(request)
-    if "username" in request:
-        is_username_accepted(str(request["username"]))
-    else:
-        raise UsernameNotInRequestException
-    print("check registration1")
-    if "forname" in request:
-        is_forname_accepted(str(request["forname"]))
-    else:
-        raise FornameNotInRequestException
-
-    if "surname" not in request:
-        is_surname_accepted(str(request["surname"]))
-    else:
-        raise SurnameNotInRequestException
-
-    if "password" not in request:
-        is_password_accepted(str(request["password"]))
-    else:
-        raise PasswordNotInRequestException
-
+    is_username_accepted(request)
+    is_forname_accepted(request)
+    is_surname_accepted(request)
+    is_password_accepted(request)
+    print("Geschafft\n\n\n\n\n\n\n\n")
     return {
         "username": str(request["username"]),
         "forname": str(request["forname"]),
-        "surename": str(request["surname"]),
+        "surname": str(request["surname"]),
         "password": str(request["password"]),
     }

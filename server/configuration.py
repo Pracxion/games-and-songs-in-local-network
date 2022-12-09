@@ -16,7 +16,7 @@ class DevelopmentConfiguration:
     # SQLALCHEMY
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = True
-    SQLALCHEMY_DATABASE_URI = r"sqlite:///db/main.sqlite"
+    SQLALCHEMY_DATABASE_URI = r"sqlite:///main.sqlite"
 
     # # SESSION
     # SESSION_TYPE = "redis"

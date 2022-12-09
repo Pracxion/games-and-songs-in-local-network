@@ -1,14 +1,16 @@
 from flask_restful import Resource
+from src.enum.status_codes import StatusCode
+
 
 class BaseApi(Resource):
-    def get(self):
-        pass
-
     def post(self):
-        pass
+        return {}, StatusCode.METHOD_NOT_ALLOWED.value
+
+    def get(self):
+        return {}, StatusCode.METHOD_NOT_ALLOWED.value
 
     def put(self):
-        pass
+        return {}, StatusCode.METHOD_NOT_ALLOWED.value
 
     def delete(self):
-        pass
+        return {}, StatusCode.METHOD_NOT_ALLOWED.value
