@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
-from src.db.db import initialize_db
+from src.model.db_model.db import initialize_db
 from src.routes.routes import initialize_routes
 from configuration import DevelopmentConfiguration
 

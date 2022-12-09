@@ -1,7 +1,7 @@
 from flask import request
-from src.api.base_api import BaseApi
-from src.api.main.utils.main import check_registration
-from src.db.user_model import User
+from src.controller.base_api import BaseApi
+from src.controller.main.utils.main import check_registration
+from src.model.db_model.user_model import User
 
 
 class RegisterApi(BaseApi):
