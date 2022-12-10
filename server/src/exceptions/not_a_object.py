@@ -1,0 +1,2 @@
+class NotAJsonObjectException(Exception):
+    pass

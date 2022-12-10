@@ -1,0 +1,3 @@
+class NoUserFoundException(Exception):
+    pass
+ 

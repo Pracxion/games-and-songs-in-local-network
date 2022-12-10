@@ -7,6 +7,7 @@ load_dotenv()
 class DevelopmentConfiguration:
 
     SECRET_KEY = os.environ.get("SECRET_KEY")
+    JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 
     # SPOTIFY
     SPOTIPY_REDIRECT_URI = "http://localhost:9000"

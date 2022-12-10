@@ -8,6 +8,8 @@ from src.exceptions.username import (
     UsernameLengthException,
     UsernameNotInRequestException,
 )
+from src.exceptions.authorization import UnauthorizedError
+from src.exceptions.not_found import NoUserFoundException
 from src.model.db_model.user_model import User
 from src.enum.allowed_symbols import AllowedSymbols
 
@@ -28,7 +30,6 @@ def is_username_accepted(request) -> None:
         raise UsernameDisallowedSymbolsException
 
     check_if_user_exist = User.query.filter_by(username=username).first()
-    print(check_if_user_exist)
     if check_if_user_exist is not None:
         raise UsernameExistsAlreadyException
 
@@ -86,10 +87,41 @@ def check_registration(request) -> dict[str, str, str, str]:
     is_forname_accepted(request)
     is_surname_accepted(request)
     is_password_accepted(request)
-    print("Geschafft\n\n\n\n\n\n\n\n")
+
     return {
         "username": str(request["username"]),
         "forname": str(request["forname"]),
         "surname": str(request["surname"]),
         "password": str(request["password"]),
     }
+
+
+def validate_username(request) -> None:
+    if "username" not in request:
+        raise UsernameNotInRequestException
+
+
+def validate_password(request) -> None:
+    if "password" not in request:
+        raise PasswordNotInRequestException
+
+
+def check_credentials(request) -> dict[str, str]:
+
+    user = User.query.filter_by(username=request["username"]).first()
+    if user is None:
+        raise NoUserFoundException
+
+    authorized = user.check_password(request["password"])
+    if not authorized:
+        raise UnauthorizedError
+
+    return {"id": str(user.id), "username": str(user.username)}
+
+
+def validate_login_credentials(request) -> dict[str, str]:
+    validate_username(request)
+    validate_password(request)
+    user = check_credentials(request)
+
+    return user
