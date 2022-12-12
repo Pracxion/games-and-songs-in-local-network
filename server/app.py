@@ -15,13 +15,13 @@ def create_app(config=DevelopmentConfiguration):
 
     # Config
     app.config.from_object(config)
-
+    app.secret_key = config.SECRET_KEY
     # TODO add error handling
     api: Api = Api(app)
     CORS(app, supports_credentials=True)
-    server_session = Session(app)
-    bcrypt: Bcrypt = Bcrypt(app)
-    jwt: JWTManager = JWTManager(app)
+    Session(app)
+    Bcrypt(app)
+    JWTManager(app)
 
     with app.app_context():
         initialize_db(app)

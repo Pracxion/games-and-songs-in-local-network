@@ -1,29 +1,50 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BiArrowBack } from "react-icons/bi";
 import httpClient from '../../httpClient';
+import { User } from '../../types/user';
 import './LandingPage.scss';
 
-const LandingPage: React.FC = () => {
-
+export const LandingPage: React.FC = () => {
     const [isLoginScreen, setIsLoginScreen] = useState(true)
-
     const [username, setUsername] = useState<string>("");
-    const [forename, setForename] = useState<string>("");
-    const [surename, setSurename] = useState<string>("");
+    const [forname, setForname] = useState<string>("");
+    const [surname, setSurname] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const setIsLoginScreenTrue = useCallback((): void => setIsLoginScreen(true), []);
     const setIsLoginScreenFalse = useCallback((): void => setIsLoginScreen(false), []);
 
-    const logInUser = async () => {
-        console.log(username, password);
-        try {
-            const resp = await httpClient.post("/login", {
-                username,
-                password,
-            });
+    useEffect(() => {
+        setUsername('');
+        setForname('');
+        setSurname('');
+        setPassword('');
+    }, [])
 
-            window.location.href = "/";
+    useEffect(() => {
+        
+    }, [])
+
+    const logInUser = async () => {
+        try {
+            const response = await httpClient.post(
+                "/login",
+                JSON.stringify({
+                    username,
+                    password,
+                }), {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            });
+            const user: User = {
+                id: response.data.id,
+                role: response.data.role,
+                username: response.data.username,
+                token: response.data.token
+            };
+            setUsername('');
+            setPassword('');
+            // TODO Handle Success
         } catch (error: any) {
             if (error.response.status === 401) {
                 alert("Invalid credentials");
@@ -78,8 +99,8 @@ const LandingPage: React.FC = () => {
                         <label>Vorname</label>
                         <input
                             type="text"
-                            value={forename}
-                            onChange={(e) => setForename(e.target.value)}
+                            value={forname}
+                            onChange={(e) => setForname(e.target.value)}
                             id="registerForename"
                         />
                     </div>
@@ -87,8 +108,8 @@ const LandingPage: React.FC = () => {
                         <label>Nachname</label>
                         <input
                             type="text"
-                            value={surename}
-                            onChange={(e) => setSurename(e.target.value)}
+                            value={surname}
+                            onChange={(e) => setSurname(e.target.value)}
                             id="registerSurename"
                         />
                     </div>
@@ -109,5 +130,3 @@ const LandingPage: React.FC = () => {
         }
     </div>;
 }
-
-export default LandingPage;

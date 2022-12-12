@@ -4,6 +4,7 @@
 **/.env
 **/node_modules/**
 **/instance/**
+**/flask_session/**
 /experimental/*
 /database/*
 **.ttf

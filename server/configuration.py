@@ -16,11 +16,11 @@ class DevelopmentConfiguration:
 
     # SQLALCHEMY
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = False
     SQLALCHEMY_DATABASE_URI = r"sqlite:///main.sqlite"
 
-    # # SESSION
-    # SESSION_TYPE = "redis"
-    # SESSION_PERMANENT = False
-    # SESSION_USE_SIGNER = True
-    # SESSION_REDIS = ""  # redis.from_url("redis")
+    # SESSION
+    SESSION_TYPE = "mongodb"
+    SESSION_PERMANENT = False
+    SESSION_USE_SIGNER = True
+    SESSION_MONGODB_DB = 'session_storage'

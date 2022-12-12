@@ -1,4 +1,5 @@
 from src.model.db_model.db import db
+from sqlalchemy.sql import func
 from uuid import uuid4
 from src.enum.roles import Role
 from flask_bcrypt import generate_password_hash, check_password_hash
@@ -16,6 +17,7 @@ class User(db.Model):
     surname = db.Column(db.String(20), nullable=False)
     password = db.Column(db.Text, nullable=False)
     role = db.Column(db.Enum(Role), nullable=False, default=Role.User.value)
+    created = db.Column(db.DateTime, nullable=True, server_default=func.now())
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode("utf8")

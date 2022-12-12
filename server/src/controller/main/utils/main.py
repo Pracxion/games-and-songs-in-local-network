@@ -116,7 +116,7 @@ def check_credentials(request) -> dict[str, str]:
     if not authorized:
         raise UnauthorizedError
 
-    return {"id": str(user.id), "username": str(user.username)}
+    return {"id": str(user.id), "username": str(user.username), "role": user["role"]}
 
 
 def validate_login_credentials(request) -> dict[str, str]:

@@ -5,8 +5,6 @@ from src.model.db_model.db import db
 from src.model.db_model.user_model import User
 from src.enum.status_codes import StatusCode
 from src.exceptions.not_a_object import NotAJsonObjectException
-import datetime
-from flask_jwt_extended import create_access_token
 
 
 class RegisterApi(BaseApi):
@@ -27,6 +25,4 @@ class RegisterApi(BaseApi):
             db.session.commit()
             id = str(new_user.id)
             session["id"] = id
-            expires = datetime.timedelta(days=7)
-            access_token = create_access_token(identity=id, expires_delta=expires)
-            return {"id": id, "token": access_token}, StatusCode.OK.value
+            return {"id": id}, StatusCode.OK.value
