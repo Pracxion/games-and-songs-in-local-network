@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BiArrowBack } from "react-icons/bi";
 import httpClient from '../../httpClient';
 import { User } from '../../types/user';
 import './LandingPage.scss';
 
 export const LandingPage: React.FC = () => {
+    const navigate = useNavigate();
     const [isLoginScreen, setIsLoginScreen] = useState(true)
     const [username, setUsername] = useState<string>("");
     const [forname, setForname] = useState<string>("");
@@ -21,10 +23,6 @@ export const LandingPage: React.FC = () => {
         setPassword('');
     }, [])
 
-    useEffect(() => {
-        
-    }, [])
-
     const logInUser = async () => {
         try {
             const response = await httpClient.post(
@@ -36,16 +34,38 @@ export const LandingPage: React.FC = () => {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });
-            const user: User = {
-                id: response.data.id,
-                role: response.data.role,
-                username: response.data.username,
-                token: response.data.token
-            };
             setUsername('');
             setPassword('');
             // TODO Handle Success
+            navigate('/@me')
         } catch (error: any) {
+            if (error.response.status === 401) {
+                alert("Invalid credentials");
+            }
+        }
+    };
+
+    const registerUser = async () => {
+        try {
+            const response = await httpClient.post(
+                "/register",
+                JSON.stringify({
+                    username,
+                    forname,
+                    surname,
+                    password
+                }), {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            });
+            setUsername('');
+            setForname('');
+            setSurname('');
+            setPassword('');
+            // TODO Handle Success
+            navigate('/@me')
+        } catch (error: any) {
+            console.log(error)
             if (error.response.status === 401) {
                 alert("Invalid credentials");
             }
@@ -122,7 +142,7 @@ export const LandingPage: React.FC = () => {
                             id="registerPassword"
                         />
                     </div>
-                    <button type="button">
+                    <button type="button" onClick={() => registerUser()}>
                         Registrieren
                     </button>
                 </form>

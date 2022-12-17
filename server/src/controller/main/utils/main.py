@@ -107,21 +107,22 @@ def validate_password(request) -> None:
 
 
 def check_credentials(request) -> dict[str, str]:
-
+    print("Getting user information.")
     user = User.query.filter_by(username=request["username"]).first()
     if user is None:
         raise NoUserFoundException
-
+    print("Username ok.")
     authorized = user.check_password(request["password"])
     if not authorized:
         raise UnauthorizedError
-
-    return {"id": str(user.id), "username": str(user.username), "role": user["role"]}
+    print("Password ok.")
+    return {"id": str(user.id), "username": str(user.username), "forname": str(user.forname), "surname": str(user.surname), "role": str(user.role)}
 
 
 def validate_login_credentials(request) -> dict[str, str]:
     validate_username(request)
+    print("Username accessible.")
     validate_password(request)
+    print("Password accessible.")
     user = check_credentials(request)
-
     return user

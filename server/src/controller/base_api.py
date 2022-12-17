@@ -1,8 +1,8 @@
 from flask_restful import Resource
 from src.enum.status_codes import StatusCode
 
-
 class BaseApi(Resource):
+
     def post(self):
         return {}, StatusCode.METHOD_NOT_ALLOWED.value
 

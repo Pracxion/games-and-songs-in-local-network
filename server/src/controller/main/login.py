@@ -1,4 +1,4 @@
-from flask import request, session
+from flask import redirect, request, session
 from src.controller.base_api import BaseApi
 from src.exceptions.not_a_object import NotAJsonObjectException
 from src.controller.main.utils.main import validate_login_credentials
@@ -17,4 +17,5 @@ class LoginApi(BaseApi):
             return {"error": str(type(exception).__name__)}, StatusCode.BAD_REQUEST.value
 
         else:
-            return {"id": user_information["id"]}, StatusCode.OK.value
+            session["id"] = user_information["id"]
+            return {}, StatusCode.OK.value

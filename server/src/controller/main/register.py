@@ -23,6 +23,7 @@ class RegisterApi(BaseApi):
             new_user.hash_password()
             db.session.add(new_user)
             db.session.commit()
-            id = str(new_user.id)
-            session["id"] = id
-            return {"id": id}, StatusCode.OK.value
+
+            session["id"] = new_user.id
+        
+            return {}, StatusCode.OK.value
